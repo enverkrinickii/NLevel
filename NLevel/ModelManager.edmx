@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelManager.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelManagerStoreContainer">
+    <EntitySet Name="Managers" EntityType="ModelManager.Store.Managers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Clients" EntityType="ModelManager.Store.Clients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Products" EntityType="ModelManager.Store.Products" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PurchasesInfo" EntityType="ModelManager.Store.PurchasesInfo" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ManagerPurchaseInfo" Association="ModelManager.Store.ManagerPurchaseInfo">
+      <End Role="Manager" EntitySet="Managers" />
+      <End Role="PurchaseInfo" EntitySet="PurchasesInfo" />
+    </AssociationSet>
+    <AssociationSet Name="ClientPurchaseInfo" Association="ModelManager.Store.ClientPurchaseInfo">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="PurchaseInfo" EntitySet="PurchasesInfo" />
+    </AssociationSet>
+    <AssociationSet Name="ProductPurchaseInfo" Association="ModelManager.Store.ProductPurchaseInfo">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="PurchaseInfo" EntitySet="PurchasesInfo" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Managers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ProductCost" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PurchasesInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SaleDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ManagerId" Type="int" Nullable="false" />
+    <Property Name="ClientId" Type="int" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ManagerPurchaseInfo">
+    <End Role="Manager" Type="ModelManager.Store.Managers" Multiplicity="1" />
+    <End Role="PurchaseInfo" Type="ModelManager.Store.PurchasesInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Manager">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PurchaseInfo">
+        <PropertyRef Name="ManagerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ClientPurchaseInfo">
+    <End Role="Client" Type="ModelManager.Store.Clients" Multiplicity="1" />
+    <End Role="PurchaseInfo" Type="ModelManager.Store.PurchasesInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PurchaseInfo">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductPurchaseInfo">
+    <End Role="Product" Type="ModelManager.Store.Products" Multiplicity="1" />
+    <End Role="PurchaseInfo" Type="ModelManager.Store.PurchasesInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PurchaseInfo">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelManager" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="StoreContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Managers" EntityType="ModelManager.Manager" />
+          <EntitySet Name="Clients" EntityType="ModelManager.Client" />
+          <EntitySet Name="Products" EntityType="ModelManager.Product" />
+          <EntitySet Name="PurchasesInfo" EntityType="ModelManager.PurchaseInfo" />
+          <AssociationSet Name="ManagerPurchaseInfo" Association="ModelManager.ManagerPurchaseInfo">
+            <End Role="Manager" EntitySet="Managers" />
+            <End Role="PurchaseInfo" EntitySet="PurchasesInfo" />
+          </AssociationSet>
+          <AssociationSet Name="ClientPurchaseInfo" Association="ModelManager.ClientPurchaseInfo">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="PurchaseInfo" EntitySet="PurchasesInfo" />
+          </AssociationSet>
+          <AssociationSet Name="ProductPurchaseInfo" Association="ModelManager.ProductPurchaseInfo">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="PurchaseInfo" EntitySet="PurchasesInfo" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" Nullable="false" />
+          <NavigationProperty Name="PurchaseInfo" Relationship="ModelManager.ManagerPurchaseInfo" FromRole="Manager" ToRole="PurchaseInfo" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" Nullable="false" />
+          <NavigationProperty Name="PurchaseInfo" Relationship="ModelManager.ClientPurchaseInfo" FromRole="Client" ToRole="PurchaseInfo" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" Nullable="false" />
+          <Property Name="ProductCost" Type="Double" Nullable="false" />
+          <NavigationProperty Name="PurchaseInfo" Relationship="ModelManager.ProductPurchaseInfo" FromRole="Product" ToRole="PurchaseInfo" />
+        </EntityType>
+        <EntityType Name="PurchaseInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleDate" Type="String" Nullable="false" />
+          <Property Name="ManagerId" Type="Int32" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Manager" Relationship="ModelManager.ManagerPurchaseInfo" FromRole="PurchaseInfo" ToRole="Manager" />
+          <NavigationProperty Name="Client" Relationship="ModelManager.ClientPurchaseInfo" FromRole="PurchaseInfo" ToRole="Client" />
+          <NavigationProperty Name="Product" Relationship="ModelManager.ProductPurchaseInfo" FromRole="PurchaseInfo" ToRole="Product" />
+        </EntityType>
+        <Association Name="ManagerPurchaseInfo">
+          <End Type="ModelManager.Manager" Role="Manager" Multiplicity="1" />
+          <End Type="ModelManager.PurchaseInfo" Role="PurchaseInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manager">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseInfo">
+              <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ClientPurchaseInfo">
+          <End Type="ModelManager.Client" Role="Client" Multiplicity="1" />
+          <End Type="ModelManager.PurchaseInfo" Role="PurchaseInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseInfo">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProductPurchaseInfo">
+          <End Type="ModelManager.Product" Role="Product" Multiplicity="1" />
+          <End Type="ModelManager.PurchaseInfo" Role="PurchaseInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseInfo">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelManagerStoreContainer" CdmEntityContainer="StoreContext">
+    <EntitySetMapping Name="Managers">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelManager.Manager)">
+        <MappingFragment StoreEntitySet="Managers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelManager.Client)">
+        <MappingFragment StoreEntitySet="Clients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelManager.Product)">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchasesInfo">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelManager.PurchaseInfo)">
+        <MappingFragment StoreEntitySet="PurchasesInfo">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SaleDate" ColumnName="SaleDate" />
+          <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
