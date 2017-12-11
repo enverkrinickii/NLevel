@@ -18,6 +18,10 @@ namespace DAL.Repositories
 
         private static PurchaseInfo ToObject(NLevel.PurchaseInfo info)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("client cannot be null");
+            }
             return new PurchaseInfo
             {
                 PurchaseDate = info.SaleDate,
@@ -29,6 +33,10 @@ namespace DAL.Repositories
 
         private static NLevel.PurchaseInfo ToEntity(PurchaseInfo info)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("client cannot be null");
+            }
             return new NLevel.PurchaseInfo
             {
                 Id = info.Id,

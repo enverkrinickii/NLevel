@@ -17,6 +17,10 @@ namespace DAL.Repositories
 
         private static Manager ToObject(NLevel.Manager manager)
         {
+            if (manager == null)
+            {
+                throw new ArgumentNullException("client cannot be null");
+            }
             return new Manager
             {
                 Surname = manager.Surname
@@ -25,6 +29,10 @@ namespace DAL.Repositories
 
         private static NLevel.Manager ToEntity(Manager manager)
         {
+            if (manager == null)
+            {
+                throw new ArgumentNullException("client cannot be null");
+            }
             return new NLevel.Manager
             {
                 Surname = manager.Surname
