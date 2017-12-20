@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using DAL.Interfaces;
 using NLevel;
 using Manager = DAL.Models.Manager;
 
@@ -52,10 +53,10 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public void Remove(Manager dalEntity)
+        public void Remove(int id)
         {
-            var manager = ToEntity(dalEntity);
-            _container.Managers.Remove(manager);
+            var manager = _container.Managers.Find(id);
+            _container.Managers.Remove(manager ?? throw new InvalidOperationException());
             SaveChanges();
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using DAL.Interfaces;
 using NLevel;
 using Product = DAL.Models.Product;
 
@@ -46,10 +47,10 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public void Remove(Product dalEntity)
+        public void Remove(int id)
         {
-            var product = ToEntity(dalEntity);
-            _container.Products.Remove(product);
+            var product = _container.Products.Find(id);
+            if (product != null) _container.Products.Remove(product);
             SaveChanges();
         }
 

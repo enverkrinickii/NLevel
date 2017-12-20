@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.Repositories
+namespace DAL.Interfaces
 {
     public interface IRepository<TDalEntity, TEntity> : IDisposable
         where TEntity : class 
@@ -10,7 +10,7 @@ namespace DAL.Repositories
     {
         TEntity GetEntity(TDalEntity source);
         void Add(TDalEntity dalEntity);
-        void Remove(TDalEntity dalEntity);
+        void Remove(int id);
         TEntity GetEntityById(int id);
         IEnumerable<TDalEntity> GetEntities { get; }
         void SaveChanges();

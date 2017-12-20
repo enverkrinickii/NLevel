@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using DAL.Interfaces;
 using NLevel;
 using PurchaseInfo = DAL.Models.PurchaseInfo;
 
@@ -59,10 +60,10 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public void Remove(PurchaseInfo dalEntity)
+        public void Remove(int id)
         {
-            var info = ToEntity(dalEntity);
-            _container.PurchasesInfo.Remove(info);
+            var info = _container.PurchasesInfo.Find(id);
+            if (info != null) _container.PurchasesInfo.Remove(info);
             SaveChanges();
         }
 

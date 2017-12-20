@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using DAL.Interfaces;
 using NLevel;
 using Client = DAL.Models.Client;
 
@@ -60,9 +61,9 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public void Remove(Client dalEntity)
+        public void Remove(int id)
         {
-            var client = ToEntity(dalEntity);
+            var client = _container.Clients.Find(id);
             try
             {
                 _container.Clients.Remove(client);
@@ -91,8 +92,7 @@ namespace DAL.Repositories
 
         public NLevel.Client GetEntityById(int id)
         {
-            var client = _container.Clients.FirstOrDefault(cl => cl.Id == id);
-            return client;
+            return _container.Clients.Find(id);
         }
 
         public void SaveChanges()

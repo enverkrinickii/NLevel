@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using DAL.Repositories;
 using NLevel;
 
@@ -13,32 +14,22 @@ namespace ConsoleApp
             IRepository<DAL.Models.Product, Product> productRepository = new ProductRepository();
             IRepository<DAL.Models.PurchaseInfo, PurchaseInfo> purchaseInfoRepository = new PurchaseInfoRepository();
 
-            //var manager = new DAL.Models.Manager { Surname = "Ivan" };
+            //var manager = new DAL.Models.Manager { Surname = "Ivanov" };
             //managerRepository.Add(manager);
-            //var manager1 = new DAL.Models.Manager { Surname = "Petr" };
+            //var manager1 = new DAL.Models.Manager { Surname = "Petrov" };
             //managerRepository.Add(manager1);
-            //var manager2 = new DAL.Models.Manager { Surname = "Semen" };
-            //managerRepository.Add(manager2);
-            //var manager3 = new DAL.Models.Manager { Surname = "Igor" };
-            //managerRepository.Add(manager3);
+
             //var managerEntity = managerRepository.GetEntity(manager);
             //var managerEntity1 = managerRepository.GetEntity(manager1);
-            //var managerEntity2 = managerRepository.GetEntity(manager2);
-            //var managerEntity3 = managerRepository.GetEntity(manager3);
 
-            //var client = new DAL.Models.Client { Surname = "Alex" };
+
+            //var client = new DAL.Models.Client { Surname = "Melander" };
             //clientRepository.Add(client);
-            //var client1 = new DAL.Models.Client { Surname = "Nik" };
+            //var client1 = new DAL.Models.Client { Surname = "Arhipov" };
             //clientRepository.Add(client1);
-            //var client2 = new DAL.Models.Client { Surname = "John" };
-            //clientRepository.Add(client2);
-            //var client3 = new DAL.Models.Client { Surname = "Ben" };
-            //clientRepository.Add(client3);
 
             //var clientEntity = clientRepository.GetEntity(client);
             //var clientEntity1 = clientRepository.GetEntity(client1);
-            //var clientEntity2 = clientRepository.GetEntity(client2);
-            //var clientEntity3 = clientRepository.GetEntity(client3);
 
             //var product = new DAL.Models.Product { ProductName = "Laptop Samsung", ProductCost = 2000 };
             //productRepository.Add(product);
@@ -66,7 +57,7 @@ namespace ConsoleApp
             //var purchaseInfo1 = new DAL.Models.PurchaseInfo
             //{
             //    PurchaseDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
-            //    ManagerId = managerEntity3.Id,
+            //    ManagerId = managerEntity1.Id,
             //    ClientId = clientEntity1.Id,
             //    ProductId = productEntity.Id
             //};
@@ -76,7 +67,7 @@ namespace ConsoleApp
             //{
             //    PurchaseDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
             //    ManagerId = managerEntity.Id,
-            //    ClientId = clientEntity2.Id,
+            //    ClientId = clientEntity1.Id,
             //    ProductId = productEntity3.Id
             //};
             //purchaseInfoRepository.Add(purchaseInfo2);
@@ -85,7 +76,7 @@ namespace ConsoleApp
             //{
             //    PurchaseDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
             //    ManagerId = managerEntity1.Id,
-            //    ClientId = clientEntity3.Id,
+            //    ClientId = clientEntity.Id,
             //    ProductId = productEntity2.Id
             //};
             //purchaseInfoRepository.Add(purchaseInfo3);
@@ -93,8 +84,8 @@ namespace ConsoleApp
             //var purchaseInfo4 = new DAL.Models.PurchaseInfo
             //{
             //    PurchaseDate = DateTime.Now.Date.ToString(CultureInfo.InvariantCulture),
-            //    ManagerId = managerEntity2.Id,
-            //    ClientId = clientEntity3.Id,
+            //    ManagerId = managerEntity.Id,
+            //    ClientId = clientEntity1.Id,
             //    ProductId = productEntity1.Id
             //};
             //purchaseInfoRepository.Add(purchaseInfo4);
