@@ -1,6 +1,6 @@
 ﻿namespace DAL.Models
 {
-    public class PurchaseInfo
+    public class PurchaseInfoDTO
     {
         public int Id { get; set; }
         public string PurchaseDate { get; set; }

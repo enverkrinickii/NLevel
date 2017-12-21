@@ -1,6 +1,6 @@
 ﻿namespace DAL.Models
 {
-    public class Product
+    public class ProductDTO
     {
         public int Id { get; set; }
         public string ProductName { get; set; }

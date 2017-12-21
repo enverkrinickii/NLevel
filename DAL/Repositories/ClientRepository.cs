@@ -4,11 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using DAL.Interfaces;
 using NLevel;
-using Client = DAL.Models.Client;
+using ClientDTO = DAL.Models.ClientDTO;
 
 namespace DAL.Repositories
 {
-    public class ClientRepository : IRepository<Client, NLevel.Client> 
+    public class ClientRepository : IRepository<ClientDTO, Client> 
     {
         private StoreContext _container;
         public ClientRepository()
@@ -16,7 +16,19 @@ namespace DAL.Repositories
             _container = new StoreContext();
         }
         
-        private static Client ToObject(NLevel.Client client)
+        private static ClientDTO ToObject(Client client)
+        {
+            if (client == null)
+            {
+                throw new ArgumentNullException("client cannot be null");
+            }
+            return new ClientDTO
+            {
+                Surname = client.Surname
+            };
+        }
+
+        private static Client ToEntity(ClientDTO client)
         {
             if (client == null)
             {
@@ -28,25 +40,13 @@ namespace DAL.Repositories
             };
         }
 
-        private static NLevel.Client ToEntity(Client client)
-        {
-            if (client == null)
-            {
-                throw new ArgumentNullException("client cannot be null");
-            }
-            return new NLevel.Client
-            {
-                Surname = client.Surname
-            };
-        }
-
-        public NLevel.Client GetEntity(Client client)
+        public Client GetEntity(ClientDTO client)
         {
             var entity = _container.Clients.FirstOrDefault(x => x.Surname == client.Surname);
             return entity;
         }
 
-        public void Add(Client dalEntity)
+        public void Add(ClientDTO dalEntity)
         {
             var client = ToEntity(dalEntity);
             try
@@ -76,11 +76,11 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public IEnumerable<Client> GetEntities
+        public IEnumerable<ClientDTO> GetEntities
         {
             get
             {
-                var entities = new List<Client>();
+                var entities = new List<ClientDTO>();
                 foreach (var client in _container.Clients.Select(x => x))
                 {
                     entities.Add(ToObject(client));
@@ -90,7 +90,7 @@ namespace DAL.Repositories
             }
         }
 
-        public NLevel.Client GetEntityById(int id)
+        public Client GetEntityById(int id)
         {
             return _container.Clients.Find(id);
         }
@@ -100,7 +100,7 @@ namespace DAL.Repositories
             _container.SaveChanges();
         }
 
-        public void Update(Client missingName)
+        public void Update(ClientDTO missingName)
         {
             _container.Entry(missingName).State = EntityState.Modified;
         }

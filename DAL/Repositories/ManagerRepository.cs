@@ -4,11 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using DAL.Interfaces;
 using NLevel;
-using Manager = DAL.Models.Manager;
+using ManagerDTO = DAL.Models.ManagerDTO;
 
 namespace DAL.Repositories
 {
-    public class ManagerRepository : IRepository<Manager, NLevel.Manager>
+    public class ManagerRepository : IRepository<ManagerDTO, Manager>
     {
         private StoreContext _container;
         public ManagerRepository()
@@ -16,7 +16,19 @@ namespace DAL.Repositories
             _container = new StoreContext();
         }
 
-        private static Manager ToObject(NLevel.Manager manager)
+        private static ManagerDTO ToObject(Manager manager)
+        {
+            if (manager == null)
+            {
+                throw new ArgumentNullException("client cannot be null");
+            }
+            return new ManagerDTO
+            {
+                Surname = manager.Surname
+            };
+        }
+
+        private static Manager ToEntity(ManagerDTO manager)
         {
             if (manager == null)
             {
@@ -28,25 +40,13 @@ namespace DAL.Repositories
             };
         }
 
-        private static NLevel.Manager ToEntity(Manager manager)
-        {
-            if (manager == null)
-            {
-                throw new ArgumentNullException("client cannot be null");
-            }
-            return new NLevel.Manager
-            {
-                Surname = manager.Surname
-            };
-        }
-
-        public NLevel.Manager GetEntity(Manager manager)
+        public Manager GetEntity(ManagerDTO manager)
         {
             var entity = _container.Managers.FirstOrDefault(x => x.Surname == manager.Surname);
             return entity;
         }
 
-        public void Add(Manager dalEntity)
+        public void Add(ManagerDTO dalEntity)
         {
             var manager = ToEntity(dalEntity);
             _container.Managers.Add(manager);
@@ -60,17 +60,17 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public NLevel.Manager GetEntityById(int id)
+        public Manager GetEntityById(int id)
         {
             var manager = _container.Managers.FirstOrDefault(mngr => mngr.Id == id);
             return manager;
         }
 
-        public IEnumerable<Manager> GetEntities
+        public IEnumerable<ManagerDTO> GetEntities
         {
             get
             {
-                var entities = new List<Manager>();
+                var entities = new List<ManagerDTO>();
                 foreach (var manager in _container.Managers.Select(x => x))
                 {
                     entities.Add(ToObject(manager));
@@ -85,7 +85,7 @@ namespace DAL.Repositories
             _container.SaveChanges();
         }
 
-        public void Update(Manager missingName)
+        public void Update(ManagerDTO missingName)
         {
             _container.Entry(missingName).State = EntityState.Modified;
         }

@@ -1,6 +1,6 @@
 ﻿namespace DAL.Models
 {
-    public class Manager
+    public class ManagerDTO
     {
         public int Id { get; set; }
         public string Surname { get; set; }

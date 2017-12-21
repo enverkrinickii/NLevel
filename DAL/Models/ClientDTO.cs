@@ -1,6 +1,6 @@
 ﻿namespace DAL.Models
 {
-    public class Client
+    public class ClientDTO
     {
         public int Id { get; set; }
         public string Surname { get; set; }

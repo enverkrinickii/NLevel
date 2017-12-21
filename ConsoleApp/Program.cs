@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using DAL.Interfaces;
 using DAL.Repositories;
 using NLevel;
 
@@ -9,10 +10,10 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            IRepository<DAL.Models.Manager, Manager> managerRepository = new ManagerRepository();
-            IRepository<DAL.Models.Client, Client> clientRepository = new ClientRepository();
-            IRepository<DAL.Models.Product, Product> productRepository = new ProductRepository();
-            IRepository<DAL.Models.PurchaseInfo, PurchaseInfo> purchaseInfoRepository = new PurchaseInfoRepository();
+            IRepository<DAL.Models.ManagerDTO, Manager> managerRepository = new ManagerRepository();
+            IRepository<DAL.Models.ClientDTO, Client> clientRepository = new ClientRepository();
+            IRepository<DAL.Models.ProductDTO, Product> productRepository = new ProductRepository();
+            IRepository<DAL.Models.PurchaseInfoDTO, PurchaseInfo> purchaseInfoRepository = new PurchaseInfoRepository();
 
             //var manager = new DAL.Models.Manager { Surname = "Ivanov" };
             //managerRepository.Add(manager);

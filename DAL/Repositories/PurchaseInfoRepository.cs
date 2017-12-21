@@ -4,11 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using DAL.Interfaces;
 using NLevel;
-using PurchaseInfo = DAL.Models.PurchaseInfo;
+using PurchaseInfoDTO = DAL.Models.PurchaseInfoDTO;
 
 namespace DAL.Repositories
 {
-    public class PurchaseInfoRepository : IRepository<PurchaseInfo, NLevel.PurchaseInfo>
+    public class PurchaseInfoRepository : IRepository<PurchaseInfoDTO, PurchaseInfo>
     {
         private StoreContext _container;
 
@@ -17,14 +17,15 @@ namespace DAL.Repositories
             _container = new StoreContext();
         }
 
-        private static PurchaseInfo ToObject(NLevel.PurchaseInfo info)
+        private static PurchaseInfoDTO ToObject(PurchaseInfo info)
         {
             if (info == null)
             {
                 throw new ArgumentNullException("client cannot be null");
             }
-            return new PurchaseInfo
+            return new PurchaseInfoDTO
             {
+                Id = info.Id,
                 PurchaseDate = info.SaleDate,
                 ClientId = info.Client.Id,
                 ManagerId = info.Manager.Id,
@@ -32,13 +33,13 @@ namespace DAL.Repositories
             };
         }
 
-        private static NLevel.PurchaseInfo ToEntity(PurchaseInfo info)
+        private static PurchaseInfo ToEntity(PurchaseInfoDTO info)
         {
             if (info == null)
             {
                 throw new ArgumentNullException("client cannot be null");
             }
-            return new NLevel.PurchaseInfo
+            return new PurchaseInfo
             {
                 Id = info.Id,
                 SaleDate = info.PurchaseDate,
@@ -47,13 +48,13 @@ namespace DAL.Repositories
                 ProductId = info.ProductId
             };
         }
-        public NLevel.PurchaseInfo GetEntity(PurchaseInfo purchaseInfo)
+        public PurchaseInfo GetEntity(PurchaseInfoDTO purchaseInfo)
         {
             var entity = _container.PurchasesInfo.FirstOrDefault(x => x.Id == purchaseInfo.Id);
             return entity;
         }
 
-        public void Add(PurchaseInfo dalEntity)
+        public void Add(PurchaseInfoDTO dalEntity)
         {
             var info = ToEntity(dalEntity);
             _container.PurchasesInfo.Add(info);
@@ -67,17 +68,17 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public NLevel.PurchaseInfo GetEntityById(int id)
+        public PurchaseInfo GetEntityById(int id)
         {
             var product = _container.PurchasesInfo.FirstOrDefault(info => info.Id == id);
             return product;
         }
 
-        public IEnumerable<PurchaseInfo> GetEntities
+        public IEnumerable<PurchaseInfoDTO> GetEntities
         {
             get
             {
-                var entities = new List<PurchaseInfo>();
+                var entities = new List<PurchaseInfoDTO>();
                 foreach (var item in _container.PurchasesInfo.Select(x => x))
                 {
                     entities.Add(ToObject(item));
@@ -92,7 +93,7 @@ namespace DAL.Repositories
             _container.SaveChanges();
         }
 
-        public void Update(PurchaseInfo missingName)
+        public void Update(PurchaseInfoDTO missingName)
         {
             _container.Entry(missingName).State = EntityState.Modified;
         }
