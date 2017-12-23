@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using AutoMapper;
 using DAL.Interfaces;
 using NLevel;
 using ProductDTO = DAL.Models.ProductDTO;
@@ -18,25 +19,18 @@ namespace DAL.Repositories
 
         private static ProductDTO ToObject(Product product)
         {
-            return new ProductDTO
-            {
-                ProductName = product.ProductName,
-                ProductCost = product.ProductCost
-            };
+
+            return Mapper.Map<ProductDTO>(product);
         }
 
         private static Product ToEntity(ProductDTO product)
         {
-            return new Product
-            {
-                ProductName = product.ProductName,
-                ProductCost = product.ProductCost
-            };
+            return Mapper.Map<Product>(product);
         }
 
-        public Product GetEntity(ProductDTO product)
+        public ProductDTO GetEntity(ProductDTO product)
         {
-            var entity = _container.Products.FirstOrDefault(x => x.ProductName == product.ProductName);
+            var entity = ToObject(_container.Products.FirstOrDefault(x => x.ProductName == product.ProductName));
             return entity;
         }
 
@@ -54,9 +48,9 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public Product GetEntityById(int id)
+        public ProductDTO GetEntityById(int id)
         {
-            var product = _container.Products.FirstOrDefault(pr => pr.Id == id);
+            var product = ToObject(_container.Products.FirstOrDefault(pr => pr.Id == id));
             return product;
         }
 

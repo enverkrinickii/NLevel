@@ -46,7 +46,7 @@ namespace Nlevel.Web.Controllers
                     ManagerSurname = manager.Surname,
                     ProductCost = product.ProductCost,
                     ProductName = product.ProductName,
-                    SaleDate = info.PurchaseDate
+                    SaleDate = info.SaleDate
                 });
             }
             
@@ -60,10 +60,10 @@ namespace Nlevel.Web.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            var purchaseInfo = _saleInfoRepository;
-            ViewBag.Managers = _managerRepository.GetEntities;
-            ViewBag.Clients = _clientRepository.GetEntities;
-            ViewBag.Products = _productRepository.GetEntities;
+            //var purchaseInfo = _saleInfoRepository;
+            //ViewBag.Managers = _managerRepository.GetEntities;
+            //ViewBag.Clients = _clientRepository.GetEntities;
+            //ViewBag.Products = _productRepository.GetEntities;
 
 
             return View();

@@ -5,6 +5,7 @@ using System.Linq;
 using DAL.Interfaces;
 using NLevel;
 using ClientDTO = DAL.Models.ClientDTO;
+using AutoMapper;
 
 namespace DAL.Repositories
 {
@@ -15,17 +16,14 @@ namespace DAL.Repositories
         {
             _container = new StoreContext();
         }
-        
+
         private static ClientDTO ToObject(Client client)
         {
             if (client == null)
             {
                 throw new ArgumentNullException("client cannot be null");
             }
-            return new ClientDTO
-            {
-                Surname = client.Surname
-            };
+            return Mapper.Map<ClientDTO>(client);
         }
 
         private static Client ToEntity(ClientDTO client)
@@ -34,16 +32,13 @@ namespace DAL.Repositories
             {
                 throw new ArgumentNullException("client cannot be null");
             }
-            return new Client
-            {
-                Surname = client.Surname
-            };
+            return Mapper.Map<Client>(client);
         }
 
-        public Client GetEntity(ClientDTO client)
+        public ClientDTO GetEntity(ClientDTO client)
         {
-            var entity = _container.Clients.FirstOrDefault(x => x.Surname == client.Surname);
-            return entity;
+            var entity = _container.Clients.FirstOrDefault(x => x.Id == client.Id);
+            return ToObject(entity);
         }
 
         public void Add(ClientDTO dalEntity)
@@ -73,6 +68,10 @@ namespace DAL.Repositories
             {
                 Console.WriteLine(e);
             }
+            catch (InvalidOperationException exception)
+            {
+                Console.WriteLine(exception);
+            }
             SaveChanges();
         }
 
@@ -90,9 +89,9 @@ namespace DAL.Repositories
             }
         }
 
-        public Client GetEntityById(int id)
+        public ClientDTO GetEntityById(int id)
         {
-            return _container.Clients.Find(id);
+            return ToObject(_container.Clients.Find(id));
         }
 
         public void SaveChanges()

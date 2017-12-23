@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using AutoMapper;
 using DAL.Interfaces;
 using NLevel;
 using ManagerDTO = DAL.Models.ManagerDTO;
@@ -20,29 +21,23 @@ namespace DAL.Repositories
         {
             if (manager == null)
             {
-                throw new ArgumentNullException("client cannot be null");
+                throw new ArgumentNullException($"client cannot be null");
             }
-            return new ManagerDTO
-            {
-                Surname = manager.Surname
-            };
+            return Mapper.Map<ManagerDTO>(manager);
         }
 
         private static Manager ToEntity(ManagerDTO manager)
         {
             if (manager == null)
             {
-                throw new ArgumentNullException("client cannot be null");
+                throw new ArgumentNullException($"client cannot be null");
             }
-            return new Manager
-            {
-                Surname = manager.Surname
-            };
+            return Mapper.Map<Manager>(manager);
         }
 
-        public Manager GetEntity(ManagerDTO manager)
+        public ManagerDTO GetEntity(ManagerDTO manager)
         {
-            var entity = _container.Managers.FirstOrDefault(x => x.Surname == manager.Surname);
+            var entity = ToObject(_container.Managers.FirstOrDefault(x => x.Surname == manager.Surname));
             return entity;
         }
 
@@ -60,9 +55,9 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public Manager GetEntityById(int id)
+        public ManagerDTO GetEntityById(int id)
         {
-            var manager = _container.Managers.FirstOrDefault(mngr => mngr.Id == id);
+            var manager = ToObject(_container.Managers.FirstOrDefault(mngr => mngr.Id == id));
             return manager;
         }
 
@@ -94,11 +89,6 @@ namespace DAL.Repositories
         {
             _container?.Dispose();
             GC.SuppressFinalize(this);
-        }
-
-        ~ManagerRepository()
-        {
-            Dispose();
         }
     }
 }

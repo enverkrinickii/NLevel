@@ -5,6 +5,7 @@ using System.Linq;
 using DAL.Interfaces;
 using NLevel;
 using PurchaseInfoDTO = DAL.Models.PurchaseInfoDTO;
+using AutoMapper;
 
 namespace DAL.Repositories
 {
@@ -17,20 +18,13 @@ namespace DAL.Repositories
             _container = new StoreContext();
         }
 
-        private static PurchaseInfoDTO ToObject(PurchaseInfo info)
+         private static PurchaseInfoDTO ToObject(PurchaseInfo info)
         {
             if (info == null)
             {
                 throw new ArgumentNullException("client cannot be null");
             }
-            return new PurchaseInfoDTO
-            {
-                Id = info.Id,
-                PurchaseDate = info.SaleDate,
-                ClientId = info.Client.Id,
-                ManagerId = info.Manager.Id,
-                ProductId = info.Product.Id
-            };
+            return Mapper.Map<PurchaseInfoDTO>(info);
         }
 
         private static PurchaseInfo ToEntity(PurchaseInfoDTO info)
@@ -39,19 +33,12 @@ namespace DAL.Repositories
             {
                 throw new ArgumentNullException("client cannot be null");
             }
-            return new PurchaseInfo
-            {
-                Id = info.Id,
-                SaleDate = info.PurchaseDate,
-                ClientId = info.ClientId,
-                ManagerId = info.ManagerId,
-                ProductId = info.ProductId
-            };
+            return Mapper.Map<PurchaseInfo>(info);
         }
-        public PurchaseInfo GetEntity(PurchaseInfoDTO purchaseInfo)
+        public PurchaseInfoDTO GetEntity(PurchaseInfoDTO purchaseInfo)
         {
             var entity = _container.PurchasesInfo.FirstOrDefault(x => x.Id == purchaseInfo.Id);
-            return entity;
+            return ToObject(entity);
         }
 
         public void Add(PurchaseInfoDTO dalEntity)
@@ -68,10 +55,10 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public PurchaseInfo GetEntityById(int id)
+        public PurchaseInfoDTO GetEntityById(int id)
         {
             var product = _container.PurchasesInfo.FirstOrDefault(info => info.Id == id);
-            return product;
+            return ToObject(product);
         }
 
         public IEnumerable<PurchaseInfoDTO> GetEntities
