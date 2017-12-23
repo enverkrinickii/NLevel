@@ -9,7 +9,7 @@ using AutoMapper;
 
 namespace DAL.Repositories
 {
-    public class ClientRepository : IRepository<ClientDTO, Client> 
+    public class ClientRepository : IRepository<ClientDTO> 
     {
         private StoreContext _container;
         public ClientRepository()
@@ -104,15 +104,15 @@ namespace DAL.Repositories
             _container.Entry(missingName).State = EntityState.Modified;
         }
 
+        public IEnumerable<ClientDTO> GetAll()
+        {
+            return _container.Clients.Select(client => ToObject(client));
+        }
+
         public void Dispose()
         {
             _container?.Dispose();
             GC.SuppressFinalize(this);
-        }
-
-        ~ClientRepository()
-        {
-            Dispose();
         }
     }
 }

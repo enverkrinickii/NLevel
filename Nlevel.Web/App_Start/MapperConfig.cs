@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using DAL.Models;
+using Nlevel.Web.Models;
 using NLevel;
 
 namespace Nlevel.Web
@@ -18,6 +19,7 @@ namespace Nlevel.Web
                 cfg.CreateMap<Manager, ManagerDTO>().ReverseMap();
                 cfg.CreateMap<Product, ProductDTO>().ReverseMap();
                 cfg.CreateMap<PurchaseInfo, PurchaseInfoDTO>().ReverseMap();
+                cfg.CreateMap<PurchaseInfoDTO, PurchaseInfoViewModel>().ReverseMap();
             });
             
         }

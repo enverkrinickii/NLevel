@@ -9,7 +9,7 @@ using ManagerDTO = DAL.Models.ManagerDTO;
 
 namespace DAL.Repositories
 {
-    public class ManagerRepository : IRepository<ManagerDTO, Manager>
+    public class ManagerRepository : IRepository<ManagerDTO>
     {
         private StoreContext _container;
         public ManagerRepository()
@@ -83,6 +83,24 @@ namespace DAL.Repositories
         public void Update(ManagerDTO missingName)
         {
             _container.Entry(missingName).State = EntityState.Modified;
+        }
+
+        public IEnumerable<ManagerDTO> GetAll()
+        {
+            foreach (var manager in _container.Managers)
+            {
+                yield return ToObject(manager);
+            }
+        }
+
+        public IEnumerable<ManagerDTO> Pagination(int begin, int amount)
+        {
+            var managers = GetAll().ToList();
+            if (begin >= managers.Count || begin + amount > managers.Count) yield break;
+            for (var i = begin; i < begin + amount; i++)
+            {
+                yield return managers[i];
+            }
         }
 
         public void Dispose()

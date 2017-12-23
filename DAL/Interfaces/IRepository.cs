@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace DAL.Interfaces
 {
-    public interface IRepository<TDalEntity, TEntity> : IDisposable
-        where TEntity : class 
+    public interface IRepository<TDalEntity> : IDisposable
         where TDalEntity : class
         
     {
@@ -15,5 +14,6 @@ namespace DAL.Interfaces
         IEnumerable<TDalEntity> GetEntities { get; }
         void SaveChanges();
         void Update(TDalEntity entity);
+        IEnumerable<TDalEntity> GetAll();
     }
 }

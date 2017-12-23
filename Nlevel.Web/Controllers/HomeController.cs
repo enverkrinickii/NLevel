@@ -16,10 +16,10 @@ namespace Nlevel.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IRepository<ManagerDTO, Manager> _managerRepository;
-        private IRepository<ClientDTO, Client> _clientRepository;
-        private IRepository<ProductDTO, Product> _productRepository;
-        private IRepository<PurchaseInfoDTO, PurchaseInfo> _saleInfoRepository;
+        private IRepository<ManagerDTO> _managerRepository;
+        private IRepository<ClientDTO> _clientRepository;
+        private IRepository<ProductDTO> _productRepository;
+        private IRepository<PurchaseInfoDTO> _saleInfoRepository;
 
         [Authorize(Roles = "admin")]
         public ActionResult Index()
@@ -29,17 +29,13 @@ namespace Nlevel.Web.Controllers
             _productRepository = new ProductRepository();
             _saleInfoRepository = new PurchaseInfoRepository();
 
-            var purchasesInfos = _saleInfoRepository.GetEntities;
+            var purchasesInfos = _saleInfoRepository.GetAll().ToList();
 
-            var allInfo = new List<PurchaseInfoViewModel>();
-
-            foreach (var info in purchasesInfos)
-            {
-                
-                var client = _clientRepository.GetEntityById(info.ClientId);
-                var manager = _managerRepository.GetEntityById(info.ManagerId);
-                var product = _productRepository.GetEntityById(info.ProductId);
-                allInfo.Add(new PurchaseInfoViewModel
+            var allInfo = (from info in purchasesInfos
+                let client = _clientRepository.GetEntityById(info.ClientId)
+                let manager = _managerRepository.GetEntityById(info.ManagerId)
+                let product = _productRepository.GetEntityById(info.ProductId)
+                select new PurchaseInfoViewModel
                 {
                     Id = info.Id,
                     ClientSurname = client.Surname,
@@ -47,24 +43,21 @@ namespace Nlevel.Web.Controllers
                     ProductCost = product.ProductCost,
                     ProductName = product.ProductName,
                     SaleDate = info.SaleDate
-                });
-            }
-            
+                }).ToList();
+
             return View(allInfo);
         }
 
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
             ViewBag.Id = id;
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //var purchaseInfo = _saleInfoRepository;
-            //ViewBag.Managers = _managerRepository.GetEntities;
-            //ViewBag.Clients = _clientRepository.GetEntities;
-            //ViewBag.Products = _productRepository.GetEntities;
-
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var purchaseInfo = _saleInfoRepository.GetEntityById(id);
+            ViewBag.Managers = new SelectList(_managerRepository.GetEntities, "Id", "Surname", purchaseInfo.ManagerId);
+            ViewBag.Clients = new SelectList(_clientRepository.GetEntities, "Id", "Surname", purchaseInfo.ClientId);
 
             return View();
         }

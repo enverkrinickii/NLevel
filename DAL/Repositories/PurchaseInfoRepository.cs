@@ -9,7 +9,7 @@ using AutoMapper;
 
 namespace DAL.Repositories
 {
-    public class PurchaseInfoRepository : IRepository<PurchaseInfoDTO, PurchaseInfo>
+    public class PurchaseInfoRepository : IRepository<PurchaseInfoDTO>
     {
         private StoreContext _container;
 
@@ -85,15 +85,16 @@ namespace DAL.Repositories
             _container.Entry(missingName).State = EntityState.Modified;
         }
 
+        public IEnumerable<PurchaseInfoDTO> GetAll()
+        {
+            return _container.PurchasesInfo.Select(info => ToObject(info));
+
+        }
+
         public void Dispose()
         {
             _container?.Dispose();
             GC.SuppressFinalize(this);
-        }
-
-        ~PurchaseInfoRepository()
-        {
-            Dispose();
         }
     }
 }

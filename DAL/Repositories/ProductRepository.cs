@@ -9,7 +9,7 @@ using ProductDTO = DAL.Models.ProductDTO;
 
 namespace DAL.Repositories
 {
-    public class ProductRepository : IRepository<ProductDTO, Product>
+    public class ProductRepository : IRepository<ProductDTO>
     {
         private StoreContext _container;
         public ProductRepository()
@@ -77,15 +77,16 @@ namespace DAL.Repositories
             _container.Entry(missingName).State = EntityState.Modified;
         }
 
+        public IEnumerable<ProductDTO> GetAll()
+        {
+            return _container.Products.Select(product => ToObject(product));
+
+        }
+
         public void Dispose()
         {
             _container?.Dispose();
             GC.SuppressFinalize(this);
-        }
-
-        ~ProductRepository()
-        {
-            Dispose();
         }
     }
 }
