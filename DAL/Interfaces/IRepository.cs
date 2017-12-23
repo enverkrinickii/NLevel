@@ -15,5 +15,6 @@ namespace DAL.Interfaces
         void SaveChanges();
         void Update(TDalEntity entity);
         IEnumerable<TDalEntity> GetAll();
+        IEnumerable<TDalEntity> Pagination(int begin, int amount);
     }
 }

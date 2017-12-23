@@ -106,7 +106,20 @@ namespace DAL.Repositories
 
         public IEnumerable<ClientDTO> GetAll()
         {
-            return _container.Clients.Select(client => ToObject(client));
+            foreach (var client in _container.Clients)
+            {
+                yield return ToObject(client);
+            }
+        }
+
+        public IEnumerable<ClientDTO> Pagination(int begin, int amount)
+        {
+            var clients = GetAll().ToList();
+            if (begin >= clients.Count || begin + amount > clients.Count) yield break;
+            for (var i = begin; i < begin + amount; i++)
+            {
+                yield return clients[i];
+            }
         }
 
         public void Dispose()

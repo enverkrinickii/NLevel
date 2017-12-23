@@ -87,8 +87,20 @@ namespace DAL.Repositories
 
         public IEnumerable<PurchaseInfoDTO> GetAll()
         {
-            return _container.PurchasesInfo.Select(info => ToObject(info));
+            foreach (var purchaseInfo in _container.PurchasesInfo)
+            {
+                yield return ToObject(purchaseInfo);
+            }
+        }
 
+        public IEnumerable<PurchaseInfoDTO> Pagination(int begin, int amount)
+        {
+            var info = GetAll().ToList();
+            if (begin >= info.Count || begin + amount > info.Count) yield break;
+            for (var i = begin; i < begin + amount; i++)
+            {
+                yield return info[i];
+            }
         }
 
         public void Dispose()
