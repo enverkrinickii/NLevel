@@ -53,19 +53,6 @@ namespace DAL.Repositories
             return ToObject(_container.Products.Find(id));
         }
 
-        public IEnumerable<ProductDTO> GetEntities
-        {
-            get
-            {
-                var entities = new List<ProductDTO>();
-                foreach (var product in _container.Products.Select(x => x))
-                {
-                    entities.Add(ToObject(product));
-                }
-
-                return entities;
-            }
-        }
         public void SaveChanges()
         {
             _container.SaveChanges();
@@ -91,9 +78,6 @@ namespace DAL.Repositories
             {
                 yield return ToObject(product);
             }
-            //var products =
-            //    GetAll().OrderBy(x => x.ProductName).Skip((begin - 1) * amount).Take(amount);
-            //return products;
         }
 
         public ProductDTO GetEntityByName(string name)

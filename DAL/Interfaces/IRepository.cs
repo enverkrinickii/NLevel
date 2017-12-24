@@ -11,7 +11,6 @@ namespace DAL.Interfaces
         void Add(TDalEntity dalEntity);
         void Remove(int id);
         TDalEntity GetEntityById(int id);
-        IEnumerable<TDalEntity> GetEntities { get; }
         void SaveChanges();
         void Update(TDalEntity entity);
         IEnumerable<TDalEntity> GetAll();

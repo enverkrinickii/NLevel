@@ -60,20 +60,6 @@ namespace DAL.Repositories
             return ToObject(_container.Managers.Find(id));
         }
 
-        public IEnumerable<ManagerDTO> GetEntities
-        {
-            get
-            {
-                var entities = new List<ManagerDTO>();
-                foreach (var manager in _container.Managers.Select(x => x))
-                {
-                    entities.Add(ToObject(manager));
-                }
-
-                return entities;
-            }
-        }
-
         public void SaveChanges()
         {
             _container.SaveChanges();
@@ -99,9 +85,6 @@ namespace DAL.Repositories
             {
                 yield return ToObject(manager);
             }
-            //var managers =
-            //    GetAll().OrderBy(x => x.Surname).Skip((begin - 1) * amount).Take(amount);
-            //return managers;
         }
 
         public ManagerDTO GetEntityByName(string name)

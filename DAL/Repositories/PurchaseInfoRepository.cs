@@ -60,20 +60,6 @@ namespace DAL.Repositories
             return ToObject(_container.PurchasesInfo.Find(id));
         }
 
-        public IEnumerable<PurchaseInfoDTO> GetEntities
-        {
-            get
-            {
-                var entities = new List<PurchaseInfoDTO>();
-                foreach (var item in _container.PurchasesInfo.Select(x => x))
-                {
-                    entities.Add(ToObject(item));
-                }
-
-                return entities;
-            }
-        }
-
         public void SaveChanges()
         {
             _container.SaveChanges();

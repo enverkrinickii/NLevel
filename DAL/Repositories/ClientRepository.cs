@@ -75,20 +75,6 @@ namespace DAL.Repositories
             SaveChanges();
         }
 
-        public IEnumerable<ClientDTO> GetEntities
-        {
-            get
-            {
-                var entities = new List<ClientDTO>();
-                foreach (var client in _container.Clients.Select(x => x))
-                {
-                    entities.Add(ToObject(client));
-                }
-
-                return entities;
-            }
-        }
-
         public ClientDTO GetEntityById(int id)
         {
             return ToObject(_container.Clients.Find(id));
@@ -119,9 +105,6 @@ namespace DAL.Repositories
             {
                 yield return ToObject(client);
             }
-            //var clients =
-            //    GetAll().OrderBy(x => x.Surname).Skip((begin - 1) * amount).Take(amount);
-            //return clients;
         }
 
         public ClientDTO GetEntityByName(string name)

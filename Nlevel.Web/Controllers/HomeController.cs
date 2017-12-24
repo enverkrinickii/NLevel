@@ -38,7 +38,7 @@ namespace Nlevel.Web.Controllers
                 _clientRepository.GetAll(), new ClientDTO().Surname);
             ViewBag.ProductName = new SelectList(
                 _productRepository.GetAll(), new ProductDTO().ProductName);
-            var purchasesInfos = _saleInfoRepository.Pagination(1,3).ToList();
+            var purchasesInfos = _saleInfoRepository.GetAll()/*Pagination(1,3)*/.ToList();
 
             var allInfo = from info in purchasesInfos
                 let client = _clientRepository.GetEntityById(info.ClientId)
@@ -139,6 +139,18 @@ namespace Nlevel.Web.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public JsonResult DiagramDataJsonResult()
+        {
+            var managers = _managerRepository.GetAll();
+            var data = managers.Select(manager => new ChatrViewModel
+                {
+                    ManagerSurname = manager.Surname,
+                    ManagersPurchases = manager.PurchaseInfo.Count
+                })
+                .ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }
