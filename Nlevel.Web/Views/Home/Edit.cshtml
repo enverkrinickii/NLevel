@@ -31,19 +31,19 @@
                 @Html.ValidationMessageFor(model => model.ProductCost, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
         <div class="form-group">
-            @Html.LabelFor(model => model.ManagerSurname, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ManagerSurname, "Managers", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ManagerSurname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("ManagerSurname", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ManagerSurname, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
         <div class="form-group">
-            @Html.LabelFor(model => model.ClientSurname, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ClientSurname, "Clients", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ClientSurname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("ClientSurname", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ClientSurname, "", new { @class = "text-danger" })
             </div>
         </div>

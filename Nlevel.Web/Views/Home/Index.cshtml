@@ -6,9 +6,36 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<form method="get">
+    <table class="table">
+        <tr>
+            <th>
+                Manager
+            </th>
+            <th>
+                Client
+            </th>
+            <th>
+                Product
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.DropDownList("managerSurname", new SelectList(ViewBag.ManagerSurname.Items), "Choose Manager", new {@class = "form-control"})
+            </th>
+            <th>
+                @Html.DropDownList("clientSurmane", new SelectList(ViewBag.ClientSurname.Items), "Choose Client", new {@class = "form-control"})
+            </th>
+            <th>
+                @Html.DropDownList("productName", new SelectList(ViewBag.ProductName.Items), "Choose Product", new {@class = "form-control"})
+            </th>
+            <th>
+                <input type="submit" value="Фильтр" class="btn btn-default"/>
+            </th>
+        </tr>
+    </table>
+</form>
+
 <table class="table">
     <tr>
         <th>
@@ -48,8 +75,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
     </tr>
 }

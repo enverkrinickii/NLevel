@@ -114,12 +114,19 @@ namespace DAL.Repositories
 
         public IEnumerable<ClientDTO> Pagination(int begin, int amount)
         {
-            var clients = GetAll().ToList();
-            if (begin >= clients.Count || begin + amount > clients.Count) yield break;
-            for (var i = begin; i < begin + amount; i++)
+            var clients = _container.Clients.OrderBy(x => x.Surname).Skip((begin - 1) * amount).Take(amount);
+            foreach (var client in clients)
             {
-                yield return clients[i];
+                yield return ToObject(client);
             }
+            //var clients =
+            //    GetAll().OrderBy(x => x.Surname).Skip((begin - 1) * amount).Take(amount);
+            //return clients;
+        }
+
+        public ClientDTO GetEntityByName(string name)
+        {
+            return ToObject(_container.Clients.FirstOrDefault(x => x.Surname == name));
         }
 
         public void Dispose()

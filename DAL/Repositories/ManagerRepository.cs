@@ -57,8 +57,7 @@ namespace DAL.Repositories
 
         public ManagerDTO GetEntityById(int id)
         {
-            var manager = ToObject(_container.Managers.FirstOrDefault(mngr => mngr.Id == id));
-            return manager;
+            return ToObject(_container.Managers.Find(id));
         }
 
         public IEnumerable<ManagerDTO> GetEntities
@@ -95,12 +94,19 @@ namespace DAL.Repositories
 
         public IEnumerable<ManagerDTO> Pagination(int begin, int amount)
         {
-            var managers = GetAll().ToList();
-            if (begin >= managers.Count || begin + amount > managers.Count) yield break;
-            for (var i = begin; i < begin + amount; i++)
+            var managers = _container.Managers.OrderBy(x => x.Surname).Skip((begin - 1) * amount).Take(amount);
+            foreach (var manager in managers)
             {
-                yield return managers[i];
+                yield return ToObject(manager);
             }
+            //var managers =
+            //    GetAll().OrderBy(x => x.Surname).Skip((begin - 1) * amount).Take(amount);
+            //return managers;
+        }
+
+        public ManagerDTO GetEntityByName(string name)
+        {
+            return ToObject(_container.Managers.FirstOrDefault(x => x.Surname == name));
         }
 
         public void Dispose()

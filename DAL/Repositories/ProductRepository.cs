@@ -50,8 +50,7 @@ namespace DAL.Repositories
 
         public ProductDTO GetEntityById(int id)
         {
-            var product = ToObject(_container.Products.FirstOrDefault(pr => pr.Id == id));
-            return product;
+            return ToObject(_container.Products.Find(id));
         }
 
         public IEnumerable<ProductDTO> GetEntities
@@ -87,12 +86,19 @@ namespace DAL.Repositories
 
         public IEnumerable<ProductDTO> Pagination(int begin, int amount)
         {
-            var products = GetAll().ToList();
-            if (begin >= products.Count || begin + amount > products.Count) yield break;
-            for (var i = begin; i < begin + amount; i++)
+            var products = _container.Products.OrderBy(x => x.ProductName).Skip((begin - 1) * amount).Take(amount);
+            foreach (var product in products)
             {
-                yield return products[i];
+                yield return ToObject(product);
             }
+            //var products =
+            //    GetAll().OrderBy(x => x.ProductName).Skip((begin - 1) * amount).Take(amount);
+            //return products;
+        }
+
+        public ProductDTO GetEntityByName(string name)
+        {
+            return ToObject(_container.Products.FirstOrDefault(x => x.ProductName == name));
         }
 
         public void Dispose()

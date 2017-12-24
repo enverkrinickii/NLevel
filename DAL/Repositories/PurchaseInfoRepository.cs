@@ -57,8 +57,7 @@ namespace DAL.Repositories
 
         public PurchaseInfoDTO GetEntityById(int id)
         {
-            var product = _container.PurchasesInfo.FirstOrDefault(info => info.Id == id);
-            return ToObject(product);
+            return ToObject(_container.PurchasesInfo.Find(id));
         }
 
         public IEnumerable<PurchaseInfoDTO> GetEntities
@@ -82,7 +81,8 @@ namespace DAL.Repositories
 
         public void Update(PurchaseInfoDTO missingName)
         {
-            _container.Entry(missingName).State = EntityState.Modified;
+
+            _container.Entry(ToEntity(missingName)).State = EntityState.Modified;
         }
 
         public IEnumerable<PurchaseInfoDTO> GetAll()
@@ -95,12 +95,16 @@ namespace DAL.Repositories
 
         public IEnumerable<PurchaseInfoDTO> Pagination(int begin, int amount)
         {
-            var info = GetAll().ToList();
-            if (begin >= info.Count || begin + amount > info.Count) yield break;
-            for (var i = begin; i < begin + amount; i++)
+            var info1 = _container.PurchasesInfo.OrderBy(x => x.ProductId).Skip((begin - 1) * amount).Take(amount);
+            foreach (var itenInfo in info1)
             {
-                yield return info[i];
+                yield return ToObject(itenInfo);
             }
+        }
+
+        public PurchaseInfoDTO GetEntityByName(string name)
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()
