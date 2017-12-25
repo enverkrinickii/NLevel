@@ -9,9 +9,9 @@ namespace Nlevel.Web.Models
     public class PurchaseInfoViewModel
     {
         [Required]
+        [StringLength(25, MinimumLength = 3)]
         public string ProductName { get; set; }
 
-        [Required]
         public double ProductCost { get; set; }
 
         [Required]
