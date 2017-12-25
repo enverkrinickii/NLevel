@@ -9,44 +9,21 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ProductName)
+            @Html.ActionLink("Managers", "Index", "Manager", routeValues: null, htmlAttributes: new { id = "purchasesLink" })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProductCost)
+            @Html.ActionLink("Clients", "Index", "Client", routeValues: null, htmlAttributes: new { id = "purchasesLink" })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ManagerSurname)
+            @Html.ActionLink("Products", "Index", "Product", routeValues: null, htmlAttributes: new { id = "purchasesLink" })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ClientSurname)
+            @Html.ActionLink("Purchases", "Index", "PurchaseInfo", routeValues: null, htmlAttributes: new { id = "purchasesLink" })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SaleDate)
+            @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
         </th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductCost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ManagerSurname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClientSurname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SaleDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-        </td>
-    </tr>
-}
 
 </table>

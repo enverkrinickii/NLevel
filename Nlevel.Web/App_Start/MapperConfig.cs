@@ -20,6 +20,9 @@ namespace Nlevel.Web
                 cfg.CreateMap<Product, ProductDTO>().ReverseMap();
                 cfg.CreateMap<PurchaseInfo, PurchaseInfoDTO>().ReverseMap();
                 cfg.CreateMap<PurchaseInfoDTO, PurchaseInfoViewModel>().ReverseMap();
+                cfg.CreateMap<ProductDTO, ProductViewModel>().ReverseMap();
+                cfg.CreateMap<ManagerDTO, ManagerViewModel>().ReverseMap();
+                cfg.CreateMap<ClientDTO, ClientViewModel>().ReverseMap();
             });
             
         }
