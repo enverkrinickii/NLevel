@@ -160,5 +160,14 @@ namespace Nlevel.Web.Controllers
             };
             return info;
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _saleInfoRepository.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

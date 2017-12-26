@@ -21,7 +21,7 @@ namespace DAL.Repositories
         {
             if (manager == null)
             {
-                throw new ArgumentNullException($"client cannot be null");
+                throw new ArgumentNullException($"manager cannot be null");
             }
             return Mapper.Map<ManagerDTO>(manager);
         }
@@ -30,7 +30,7 @@ namespace DAL.Repositories
         {
             if (manager == null)
             {
-                throw new ArgumentNullException($"client cannot be null");
+                throw new ArgumentNullException($"manager cannot be null");
             }
             return Mapper.Map<Manager>(manager);
         }
@@ -43,8 +43,17 @@ namespace DAL.Repositories
 
         public void Add(ManagerDTO dalEntity)
         {
-            var manager = ToEntity(dalEntity);
-            _container.Managers.Add(manager);
+            Manager manager = null;
+            try
+            {
+                manager = ToEntity(dalEntity);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+            }
+            
+            _container.Managers.Add(manager ?? throw new InvalidOperationException());
             SaveChanges();
         }
 

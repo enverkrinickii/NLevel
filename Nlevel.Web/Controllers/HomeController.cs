@@ -95,5 +95,14 @@ namespace Nlevel.Web.Controllers
                 .ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _productRepository.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

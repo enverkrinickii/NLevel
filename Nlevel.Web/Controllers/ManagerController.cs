@@ -111,5 +111,14 @@ namespace Nlevel.Web.Controllers
             }
             return View(manager);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _managerRepository.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }
