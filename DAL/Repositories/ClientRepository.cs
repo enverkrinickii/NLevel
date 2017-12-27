@@ -17,6 +17,8 @@ namespace DAL.Repositories
             _container = new StoreContext();
         }
 
+        //why static?
+        //SRP violation
         private static ClientDTO ToObject(Client client)
         {
             if (client == null)
@@ -35,6 +37,7 @@ namespace DAL.Repositories
             return Mapper.Map<Client>(client);
         }
 
+        //pass ClientDTO tp get ClientDTO from repo..? should be id parameter instead of ClientDTO
         public ClientDTO GetEntity(ClientDTO client)
         {
             var entity = _container.Clients.FirstOrDefault(x => x.Id == client.Id);
@@ -49,10 +52,13 @@ namespace DAL.Repositories
                 _container.Clients.Add(client);
 
             }
+            //what about other exceptions?
             catch (ArgumentNullException e)
             {
                 Console.WriteLine(e);
             }
+            
+            //are you sure you want save changes in case of exception thrown?
             SaveChanges();
         }
 
@@ -100,6 +106,7 @@ namespace DAL.Repositories
 
         public IEnumerable<ClientDTO> Pagination(int begin, int amount)
         {
+            //return  _container.Clients.OrderBy(x => x.Surname).Skip((begin - 1) * amount).Take(amount).Select(ToObject);
             var clients = _container.Clients.OrderBy(x => x.Surname).Skip((begin - 1) * amount).Take(amount);
             foreach (var client in clients)
             {
@@ -109,11 +116,13 @@ namespace DAL.Repositories
 
         public ClientDTO GetEntityByName(string name)
         {
+            //user will never be informed that there are more than one client with this name (log or exception)
             return ToObject(_container.Clients.FirstOrDefault(x => x.Surname == name));
         }
 
         public void Dispose()
         {
+            //what happens when we didn't dispose this object manually?
             _container?.Dispose();
             GC.SuppressFinalize(this);
         }
