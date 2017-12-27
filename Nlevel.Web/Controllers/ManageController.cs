@@ -10,6 +10,9 @@ using Nlevel.Web.Models;
 
 namespace Nlevel.Web.Controllers
 {
+
+//EXCEPTIONS handling
+
     [Authorize]
     public class ManageController : Controller
     {
@@ -54,6 +57,7 @@ namespace Nlevel.Web.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            //even switch will be better.
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
                 : message == ManageMessageId.SetPasswordSuccess ? "Пароль задан."
@@ -335,6 +339,7 @@ namespace Nlevel.Web.Controllers
 
 #region Вспомогательные приложения
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
+        //you have the same constant in account controller
         private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager
