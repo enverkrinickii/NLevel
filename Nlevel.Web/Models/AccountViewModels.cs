@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+//should be one class per file
+
 namespace Nlevel.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
