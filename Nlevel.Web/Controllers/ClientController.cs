@@ -24,6 +24,7 @@ namespace Nlevel.Web.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
+            //bad practice to call repos from controller directly
             var clients = _clientRepository.GetAll();
             var clientsViewModels = clients.Select(Mapper.Map<ClientViewModel>).ToList();
             return View(clientsViewModels);
@@ -48,6 +49,7 @@ namespace Nlevel.Web.Controllers
         public ActionResult Delete(int? id)
         {
             int myId;
+            //you have to use HasValue
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -103,6 +105,7 @@ namespace Nlevel.Web.Controllers
             if (ModelState.IsValid)
             {
                 _clientRepository.Update(Mapper.Map<ClientDTO>(client));
+                //in some cases you call SaveChanges in repo, sometimes in controller - it's a mess.
                 _clientRepository.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -112,7 +115,7 @@ namespace Nlevel.Web.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
+            {            
                 _clientRepository.Dispose();
             }
             base.Dispose(disposing);
