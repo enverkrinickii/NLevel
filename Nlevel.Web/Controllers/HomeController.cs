@@ -12,6 +12,9 @@ using DAL.Models;
 using Nlevel.Web.Models;
 using NLevel;
 
+//do not use repositories in controller
+//do not use ViewBag
+
 namespace Nlevel.Web.Controllers
 {
     public class HomeController : Controller
@@ -38,6 +41,8 @@ namespace Nlevel.Web.Controllers
                 _clientRepository.GetAll(), new ClientDTO().Surname);
             ViewBag.ProductName = new SelectList(
                 _productRepository.GetAll(), new ProductDTO().ProductName);
+                
+            //not optimal code   
             var purchasesInfos = _saleInfoRepository.GetAll()/*Pagination(1,3)*/.ToList();
             var dates = _saleInfoRepository.GetAll().Select(x => x.SaleDate).Distinct();
             ViewBag.Dates = new SelectList(dates);
@@ -55,6 +60,7 @@ namespace Nlevel.Web.Controllers
                     ProductName = product.ProductName,
                     SaleDate = info.SaleDate
                 };
+            //"Choose Manager" - WTF? should be constant
             if (!string.IsNullOrEmpty(managerSurname) && !managerSurname.Equals("Choose Manager"))
             {
                 allInfo = allInfo.Where(x => x.ManagerSurname == managerSurname);
@@ -95,6 +101,8 @@ namespace Nlevel.Web.Controllers
                     Amount = product.PurchaseInfo.Count
                 })
                 .ToList();
+                
+            //do you need JsonRequestBehavior.AllowGet ?
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
