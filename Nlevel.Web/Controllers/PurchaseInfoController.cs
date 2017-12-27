@@ -49,6 +49,8 @@ namespace Nlevel.Web.Controllers
                 myId = (int)id;
             }
             var purchaseInfo = _saleInfoRepository.GetEntityById(myId);
+            
+            //new ManagerDTO().Surname ?
             ViewBag.ManagerSurname = new SelectList(_managerRepository.GetAll(), new ManagerDTO().Surname);
             ViewBag.ClientSurname = new SelectList(_clientRepository.GetAll(), new ClientDTO().Surname);
             ViewBag.ProductName = new SelectList(_productRepository.GetAll(), new ProductDTO().ProductName);
