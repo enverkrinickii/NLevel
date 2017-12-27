@@ -9,6 +9,7 @@ using ManagerDTO = DAL.Models.ManagerDTO;
 
 namespace DAL.Repositories
 {
+    //your repositorieas are very similar to each other, you have to create abstract BaseRepository to follow DRY principle
     public class ManagerRepository : IRepository<ManagerDTO>
     {
         private StoreContext _container;
