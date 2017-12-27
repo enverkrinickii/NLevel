@@ -28,6 +28,7 @@ namespace Nlevel.Web.Controllers
             SignInManager = signInManager;
         }
 
+        //why do you need this if you set value in constructor?
         public ApplicationSignInManager SignInManager
         {
             get
@@ -57,6 +58,7 @@ namespace Nlevel.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            //bad practice to use ViewBag
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -86,6 +88,7 @@ namespace Nlevel.Web.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
+                    //avoid to send hardcoded messages in russian to UI
                     ModelState.AddModelError("", "Неудачная попытка входа.");
                     return View(model);
             }
@@ -121,6 +124,8 @@ namespace Nlevel.Web.Controllers
             // будет заблокирована на заданный период. 
             // Параметры блокирования учетных записей можно настроить в IdentityConfig
             var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            
+            //switch is the same as on line 81 can be refactored with...? :)
             switch (result)
             {
                 case SignInStatus.Success:
@@ -155,6 +160,7 @@ namespace Nlevel.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //exceptions handling? how can you guarantee that methods below are never fail?
                     await UserManager.AddToRoleAsync(user.Id, "user");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     return RedirectToAction("Index", "Home");
@@ -397,6 +403,7 @@ namespace Nlevel.Web.Controllers
             return View();
         }
 
+        //what "bool disposing" is used for?
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -415,6 +422,7 @@ namespace Nlevel.Web.Controllers
             }
 
             base.Dispose(disposing);
+            //GC.SuppressFinalize?
         }
 
         #region Вспомогательные приложения
