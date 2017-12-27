@@ -27,7 +27,7 @@
                 @Html.DropDownList("clientSurmane", new SelectList(ViewBag.ClientSurname.Items), "Choose Client", new {@class = "form-control"})
             </th>
             <th>
-                @Html.DropDownList("productName", new SelectList(ViewBag.ProductName.Items), "Choose Product", new {@class = "form-control"})
+                @Html.DropDownList("saleDate", new SelectList(ViewBag.Dates.Items), "Choose Date", new {@class = "form-control"})
             </th>
             <th>
                 <input type="submit" value="Фильтр" class="btn btn-default"/>
@@ -105,12 +105,12 @@
 
     function drawChart(response) {
         var data = new window.google.visualization.DataTable();
-        data.addColumn('string', 'ManagerManagerSurname');
-        data.addColumn('number', 'ManagersPurchases');
+        data.addColumn('string', 'ProductName');
+        data.addColumn('number', 'Amount');
         var dataArray = [];
         $.each(response,
             function(i, obj) {
-                dataArray.push([obj.ManagerManagerSurname, obj.ManagersPurchases]);
+                dataArray.push([obj.ProductName, obj.Amount]);
             });
         data.addRows(dataArray);
         var pieChartOptions = {

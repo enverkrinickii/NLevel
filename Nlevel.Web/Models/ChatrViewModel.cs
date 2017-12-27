@@ -7,8 +7,8 @@ namespace Nlevel.Web.Models
 {
     public class ChatrViewModel
     {
-        public string ManagerSurname { get; set; }
+        public string ProductName { get; set; }
 
-        public int ManagersPurchases { get; set; }
+        public int Amount { get; set; }
     }
 }

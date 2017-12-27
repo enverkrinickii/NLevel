@@ -30,7 +30,7 @@ namespace Nlevel.Web.Controllers
         }
 
         [Authorize(Roles = "user")]
-        public ActionResult Index(string managerSurname, string clientSurmane, string productName)
+        public ActionResult Index(string managerSurname, string clientSurmane, string saleDate)
         {
             ViewBag.ManagerSurname = new SelectList(
                 _managerRepository.GetAll(), new ManagerDTO().Surname);
@@ -39,6 +39,8 @@ namespace Nlevel.Web.Controllers
             ViewBag.ProductName = new SelectList(
                 _productRepository.GetAll(), new ProductDTO().ProductName);
             var purchasesInfos = _saleInfoRepository.GetAll()/*Pagination(1,3)*/.ToList();
+            var dates = _saleInfoRepository.GetAll().Select(x => x.SaleDate).Distinct();
+            ViewBag.Dates = new SelectList(dates);
 
             var allInfo = from info in purchasesInfos
                 let client = _clientRepository.GetEntityById(info.ClientId)
@@ -61,9 +63,9 @@ namespace Nlevel.Web.Controllers
             {
                 allInfo = allInfo.Where(x => x.ClientSurname == clientSurmane);
             }
-            if (!string.IsNullOrEmpty(productName) && !productName.Equals("Choose Product"))
+            if (!string.IsNullOrEmpty(saleDate) && !saleDate.Equals("Choose Date"))
             {
-                allInfo = allInfo.Where(x => x.ProductName == productName);
+                allInfo = allInfo.Where(x => x.SaleDate == saleDate);
             }
             return View(allInfo);
         }
@@ -86,11 +88,11 @@ namespace Nlevel.Web.Controllers
 
         public JsonResult DiagramDataJsonResult()
         {
-            var managers = _productRepository.GetAll();
-            var data = managers.Select(manager => new ChatrViewModel
+            var products = _productRepository.GetAll();
+            var data = products.Select(product => new ChatrViewModel
                 {
-                    ManagerSurname = manager.ProductName,
-                    ManagersPurchases = manager.PurchaseInfo.Count
+                    ProductName = product.ProductName,
+                    Amount = product.PurchaseInfo.Count
                 })
                 .ToList();
             return Json(data, JsonRequestBehavior.AllowGet);

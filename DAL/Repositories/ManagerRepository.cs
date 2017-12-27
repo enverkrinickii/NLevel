@@ -76,7 +76,16 @@ namespace DAL.Repositories
 
         public void Update(ManagerDTO missingName)
         {
-            _container.Entry(ToEntity(missingName)).State = EntityState.Modified;
+            Manager manager = null;
+            try
+            {
+                manager = ToEntity(missingName);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+            }
+            _container.Entry(manager).State = EntityState.Modified;
         }
 
         public IEnumerable<ManagerDTO> GetAll()
