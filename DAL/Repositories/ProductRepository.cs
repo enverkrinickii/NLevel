@@ -36,6 +36,7 @@ namespace DAL.Repositories
 
         public void Add(ProductDTO dalEntity)
         {
+            //exceptions handling?
             var product = ToEntity(dalEntity);
             _container.Products.Add(product);
             SaveChanges();
@@ -43,6 +44,7 @@ namespace DAL.Repositories
 
         public void Remove(int id)
         {
+            //exceptions handling?
             var product = _container.Products.Find(id);
             if (product != null) _container.Products.Remove(product);
             SaveChanges();
